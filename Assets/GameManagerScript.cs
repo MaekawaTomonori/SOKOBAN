@@ -6,7 +6,13 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
 
-    private int[] map = new int[] { 0, 0, 1, 0, 0 };
+    private int[] map = new int[] { 0, 2, 1, 2, 0 };
+
+    private enum BlockType {
+        AIR,
+        PLAYER,
+        BLOCK
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +24,14 @@ public class GameManagerScript : MonoBehaviour
     void Update() {
         int playerIndex = getPlayerIndex();
         if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            MoveNumber(1, playerIndex, playerIndex + 1);
+            MoveNumber((int)BlockType.PLAYER, playerIndex, playerIndex + 1);
+            PrintArray();
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            MoveNumber(1, playerIndex, playerIndex - 1);
+            MoveNumber((int)BlockType.PLAYER, playerIndex, playerIndex - 1);
+            PrintArray();
         }
+
     }
 
     void PrintArray() {
@@ -52,9 +61,16 @@ public class GameManagerScript : MonoBehaviour
 
     bool MoveNumber(int objectiveNum, int moveFrom, int moveTo)
     {
-        if (moveTo < 0 || moveTo > map.Length) { return false; }
+        if (moveTo < 0 || moveTo > map.Length -1) { return false; }
+
+        //distination is a block
+        if (map[moveTo] == (int)BlockType.BLOCK) {
+            if (!MoveNumber((int)BlockType.BLOCK, moveTo, moveTo + (moveTo - moveFrom))) {
+                return false;
+            }
+        }
+        map[moveFrom] = (int)BlockType.AIR;
         map[moveTo] = objectiveNum;
-        map[moveFrom] = map[moveTo];
         return true;
     }
 }
