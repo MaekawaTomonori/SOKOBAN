@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Block
+  - Goal
+  - Particle
   layers:
   - Default
   - TransparentFX
