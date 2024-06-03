@@ -9,6 +9,10 @@ public class Particle : MonoBehaviour {
     private Vector3 defaultScale;
 
     void Start() {
+        Initialize();
+    }
+
+    void Initialize() {
         leftLifeTime = lifeTime;
         defaultScale = transform.localScale;
         float maxVelocity = 5;
@@ -21,7 +25,7 @@ public class Particle : MonoBehaviour {
         transform.localScale = Vector3.Lerp(new Vector3(0, 0, 0), defaultScale, leftLifeTime / lifeTime);
 
         if (leftLifeTime <= 0) {
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 }

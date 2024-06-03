@@ -7,6 +7,7 @@ TagManager:
   - Block
   - Goal
   - Particle
+  - Wall
   layers:
   - Default
   - TransparentFX
